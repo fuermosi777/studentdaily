@@ -7,13 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		006B53F0BDA1AF4340A4FA77 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D523FC9DF8285830C482A00F /* libPods.a */; };
 		3FB7C0E01A4AF0D400EED43B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7C0DF1A4AF0D400EED43B /* main.m */; };
 		3FB7C0E31A4AF0D400EED43B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7C0E21A4AF0D400EED43B /* AppDelegate.m */; };
-		3FB7C0E61A4AF0D400EED43B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7C0E51A4AF0D400EED43B /* ViewController.m */; };
 		3FB7C0E91A4AF0D400EED43B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FB7C0E71A4AF0D400EED43B /* Main.storyboard */; };
 		3FB7C0EB1A4AF0D400EED43B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FB7C0EA1A4AF0D400EED43B /* Images.xcassets */; };
 		3FB7C0EE1A4AF0D400EED43B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FB7C0EC1A4AF0D400EED43B /* LaunchScreen.xib */; };
 		3FB7C0FA1A4AF0D400EED43B /* studentdailyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7C0F91A4AF0D400EED43B /* studentdailyTests.m */; };
+		3FB7C1051A4AF26B00EED43B /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7C1041A4AF26B00EED43B /* HomeViewController.m */; };
+		3FB7C1081A4B0B4700EED43B /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7C1071A4B0B4700EED43B /* PostViewController.m */; };
+		3FB7C10B1A4B1C5600EED43B /* NavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7C10A1A4B1C5600EED43B /* NavViewController.m */; };
+		3FB7C10E1A4B799200EED43B /* AboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7C10D1A4B799200EED43B /* AboutTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,14 +36,23 @@
 		3FB7C0DF1A4AF0D400EED43B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3FB7C0E11A4AF0D400EED43B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3FB7C0E21A4AF0D400EED43B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		3FB7C0E41A4AF0D400EED43B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		3FB7C0E51A4AF0D400EED43B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		3FB7C0E81A4AF0D400EED43B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3FB7C0EA1A4AF0D400EED43B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3FB7C0ED1A4AF0D400EED43B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		3FB7C0F31A4AF0D400EED43B /* studentdailyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = studentdailyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FB7C0F81A4AF0D400EED43B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3FB7C0F91A4AF0D400EED43B /* studentdailyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = studentdailyTests.m; sourceTree = "<group>"; };
+		3FB7C1031A4AF26B00EED43B /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		3FB7C1041A4AF26B00EED43B /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		3FB7C1061A4B0B4700EED43B /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewController.h; sourceTree = "<group>"; };
+		3FB7C1071A4B0B4700EED43B /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
+		3FB7C1091A4B1C5600EED43B /* NavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavViewController.h; sourceTree = "<group>"; };
+		3FB7C10A1A4B1C5600EED43B /* NavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavViewController.m; sourceTree = "<group>"; };
+		3FB7C10C1A4B799200EED43B /* AboutTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutTableViewController.h; sourceTree = "<group>"; };
+		3FB7C10D1A4B799200EED43B /* AboutTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutTableViewController.m; sourceTree = "<group>"; };
+		53211A0FECB527BCDD2C8D63 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		8B9DA6C2F350DC4C227A2F96 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		D523FC9DF8285830C482A00F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				006B53F0BDA1AF4340A4FA77 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,12 +74,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A47FA46AA960C1CE0B732C5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D523FC9DF8285830C482A00F /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3FB7C0D11A4AF0D400EED43B = {
 			isa = PBXGroup;
 			children = (
 				3FB7C0DC1A4AF0D400EED43B /* studentdaily */,
 				3FB7C0F61A4AF0D400EED43B /* studentdailyTests */,
 				3FB7C0DB1A4AF0D400EED43B /* Products */,
+				9268530B4B4AD06A68CD6502 /* Pods */,
+				3A47FA46AA960C1CE0B732C5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,12 +107,18 @@
 			children = (
 				3FB7C0E11A4AF0D400EED43B /* AppDelegate.h */,
 				3FB7C0E21A4AF0D400EED43B /* AppDelegate.m */,
-				3FB7C0E41A4AF0D400EED43B /* ViewController.h */,
-				3FB7C0E51A4AF0D400EED43B /* ViewController.m */,
+				3FB7C1031A4AF26B00EED43B /* HomeViewController.h */,
+				3FB7C1041A4AF26B00EED43B /* HomeViewController.m */,
+				3FB7C1061A4B0B4700EED43B /* PostViewController.h */,
+				3FB7C1071A4B0B4700EED43B /* PostViewController.m */,
+				3FB7C10C1A4B799200EED43B /* AboutTableViewController.h */,
+				3FB7C10D1A4B799200EED43B /* AboutTableViewController.m */,
 				3FB7C0E71A4AF0D400EED43B /* Main.storyboard */,
 				3FB7C0EA1A4AF0D400EED43B /* Images.xcassets */,
 				3FB7C0EC1A4AF0D400EED43B /* LaunchScreen.xib */,
 				3FB7C0DD1A4AF0D400EED43B /* Supporting Files */,
+				3FB7C1091A4B1C5600EED43B /* NavViewController.h */,
+				3FB7C10A1A4B1C5600EED43B /* NavViewController.m */,
 			);
 			path = studentdaily;
 			sourceTree = "<group>";
@@ -119,6 +149,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		9268530B4B4AD06A68CD6502 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				53211A0FECB527BCDD2C8D63 /* Pods.debug.xcconfig */,
+				8B9DA6C2F350DC4C227A2F96 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -126,9 +165,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3FB7C0FD1A4AF0D400EED43B /* Build configuration list for PBXNativeTarget "studentdaily" */;
 			buildPhases = (
+				20379FF260C174C8845BE0BF /* Check Pods Manifest.lock */,
 				3FB7C0D61A4AF0D400EED43B /* Sources */,
 				3FB7C0D71A4AF0D400EED43B /* Frameworks */,
 				3FB7C0D81A4AF0D400EED43B /* Resources */,
+				B640EA681B4889B3DF3D766B /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -214,14 +255,50 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		20379FF260C174C8845BE0BF /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B640EA681B4889B3DF3D766B /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		3FB7C0D61A4AF0D400EED43B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FB7C0E61A4AF0D400EED43B /* ViewController.m in Sources */,
+				3FB7C1081A4B0B4700EED43B /* PostViewController.m in Sources */,
+				3FB7C10E1A4B799200EED43B /* AboutTableViewController.m in Sources */,
 				3FB7C0E31A4AF0D400EED43B /* AppDelegate.m in Sources */,
 				3FB7C0E01A4AF0D400EED43B /* main.m in Sources */,
+				3FB7C1051A4AF26B00EED43B /* HomeViewController.m in Sources */,
+				3FB7C10B1A4B1C5600EED43B /* NavViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +418,7 @@
 		};
 		3FB7C0FE1A4AF0D400EED43B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 53211A0FECB527BCDD2C8D63 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = studentdaily/Info.plist;
@@ -351,6 +429,7 @@
 		};
 		3FB7C0FF1A4AF0D400EED43B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8B9DA6C2F350DC4C227A2F96 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = studentdaily/Info.plist;
@@ -412,6 +491,7 @@
 				3FB7C0FF1A4AF0D400EED43B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3FB7C1001A4AF0D400EED43B /* Build configuration list for PBXNativeTarget "studentdailyTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +500,7 @@
 				3FB7C1021A4AF0D400EED43B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

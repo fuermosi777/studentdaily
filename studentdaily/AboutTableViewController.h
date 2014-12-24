@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  AboutTableViewController.h
 //  studentdaily
 //
 //  Created by Hao Liu on 12/24/14.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface AboutTableViewController : UITableViewController
 
 @end
-
