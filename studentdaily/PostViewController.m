@@ -10,8 +10,9 @@
 #import <MBProgressHUD/MBProgressHUD.h> // progress indicator
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "NavViewController.h"
+#import "UMSocial.h"
 
-@interface PostViewController ()
+@interface PostViewController () <UMSocialUIDelegate>
 
 @end
 
@@ -25,9 +26,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1];
-
+    [self addRightButton];
     [self loadData];
     // Do any additional setup after loading the view.
+}
+
+- (void)addRightButton {
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                                                                 target:self
+                                                                                 action:@selector(share)];
+    self.navigationItem.rightBarButtonItem = rightButton;
 }
 
 - (void)addWebView {
@@ -71,12 +79,43 @@
     [_banner addSubview:title];
 }
 
+#pragma mark - share
+
+- (void)share {
+    [UMSocialSnsService presentSnsIconSheetView:self
+                                         appKey:@"549cda13fd98c5b8d0000ff8"
+                                      shareText:@"分享自留学生日报"
+                                     shareImage:_banner.image
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatFavorite,UMShareToWechatSession,UMShareToWechatTimeline,nil]
+                                       delegate:self];
+    [UMSocialData defaultData].extConfig.wechatSessionData.url = [NSString stringWithFormat:@"http://studentdaily.org/post/%@/",[_dict objectForKey:@"id"]];
+    [UMSocialData defaultData].extConfig.wechatTimelineData.url = [NSString stringWithFormat:@"http://studentdaily.org/post/%@/",[_dict objectForKey:@"id"]];
+    [UMSocialData defaultData].extConfig.wechatSessionData.title = [NSString stringWithFormat:@"%@", [_dict objectForKey:@"title"]];
+    [UMSocialData defaultData].extConfig.wechatTimelineData.title = [NSString stringWithFormat:@"%@", [_dict objectForKey:@"title"]];
+}
+
+-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+{
+    //根据`responseCode`得到发送结果,如果分享成功
+    if(response.responseCode == UMSResponseCodeSuccess)
+    {
+        //得到分享到的微博平台名
+        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
+    }
+}
+
+- (BOOL)isDirectShareInIconActionSheet {
+    return YES;
+}
+
+#pragma mark -
+
 - (void)loadData {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // send url request
-        NSString *urlString = [[NSString stringWithFormat:@"http://xun-wei.com/studentdaily/post/%@/",_postID] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *urlString = [[NSString stringWithFormat:@"http://studentdaily.org/api/post/%@/",_postID] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:urlString];
         NSError *error;
         NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&error];
@@ -115,7 +154,6 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
     float originY = scrollView.contentOffset.y + self.view.frame.size.width * 3/4;
-    NSLog(@"%f",originY);
     float percentage = originY/100;
     [(NavViewController *)self.navigationController setBgColor:percentage];
     

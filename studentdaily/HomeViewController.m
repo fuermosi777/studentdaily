@@ -36,7 +36,7 @@
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -64, self.view.frame.size.width, self.view.frame.size.height + 64)];
     _tableView.dataSource = self;
     _tableView.delegate = self;
-    _tableView.showsVerticalScrollIndicator = NO;
+    _tableView.showsVerticalScrollIndicator = YES;
     _tableView.contentInset = UIEdgeInsetsMake(self.view.frame.size.width * 3/4, 0, 0, 0);
     _tableView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_tableView];
@@ -110,7 +110,7 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // send url request
-        NSString *urlString = [[NSString stringWithFormat:@"http://xun-wei.com/studentdaily/post/list/"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *urlString = [[NSString stringWithFormat:@"http:/studentdaily.org/api/post/list/"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:urlString];
         NSError *error;
         NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&error];
