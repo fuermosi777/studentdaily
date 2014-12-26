@@ -31,20 +31,24 @@
 }
 
 - (void)addWebView {
-    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.width * 3/4, self.view.frame.size.width, self.view.frame.size.height)];
+    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     _webView.backgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1];
     _webView.scrollView.delegate = self;
     _webView.scrollView.showsHorizontalScrollIndicator = NO;
-    _webView.scrollView.showsVerticalScrollIndicator = NO;
-    
-    [self.view insertSubview:_webView aboveSubview:_banner];
+    [_webView.scrollView setContentInset:UIEdgeInsetsMake(self.view.frame.size.width * 3/4, 0, 0, 0)];
+    _webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(self.view.frame.size.width * 3/4, 0, 0, 0);
+
+    [self.view addSubview:_webView];
+    [_webView.scrollView setContentOffset:CGPointMake(0, -self.view.frame.size.width)];// !!! don't know why, but avoid scrollview scroll to bottom in the first place
 }
 
 - (void)addBanner {
-    _banner = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/4)];
+    
+    _banner = [[UIImageView alloc] initWithFrame:CGRectMake(0, -self.view.frame.size.width * 1/8, self.view.frame.size.width, self.view.frame.size.width)];
+    [_banner setBackgroundColor:[UIColor whiteColor]];
     [_banner setContentMode:UIViewContentModeScaleAspectFill];
     [_banner setClipsToBounds:YES];
-    [self.view addSubview:_banner];
+    [_webView insertSubview:_banner atIndex:0];
     
     // overlay
     CAGradientLayer *gradient = [CAGradientLayer layer];
@@ -58,7 +62,7 @@
     [_banner.layer insertSublayer:gradient atIndex:0];
     
     // title
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, _banner.frame.size.height * 2/3, self.view.frame.size.width - 30, _banner.frame.size.height * 1/3)];
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, self.view.frame.size.width * 3/5, self.view.frame.size.width - 30, _banner.frame.size.height * 1/3)];
     [title setText:[_dict objectForKey:@"title"]];
     [title setFont:[UIFont boldSystemFontOfSize:20]];
     [title setNumberOfLines:0];
@@ -99,8 +103,8 @@
 }
 
 - (void)loadComplete {
-    [self addBanner];
     [self addWebView];
+    [self addBanner];
     [_banner sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", [_dict objectForKey:@"photo"]]]];
     
     NSString *embedHTML = [_dict objectForKey:@"css"];
@@ -109,24 +113,23 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    float percentage = scrollView.contentOffset.y/100;
-        [(NavViewController *)self.navigationController setBgColor:percentage];
     
-    // scroll webview
-    if (self.view.frame.size.width * 3/4 - scrollView.contentOffset.y > 0) {
-        [_webView setFrame:CGRectMake(0, self.view.frame.size.width * 3/4 - scrollView.contentOffset.y, self.view.frame.size.width, _webView.frame.size.height)];
-    } else {
-        [_webView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-
-    }
+    float originY = scrollView.contentOffset.y + self.view.frame.size.width * 3/4;
+    NSLog(@"%f",originY);
+    float percentage = originY/100;
+    [(NavViewController *)self.navigationController setBgColor:percentage];
     
+    if (originY >= -self.view.frame.size.width * 1/8) {
+        // scroll indicator
+        if (originY >= self.view.frame.size.width * 3/4) {
+            [_webView.scrollView setScrollIndicatorInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+        } else {
+            [_webView.scrollView setScrollIndicatorInsets:UIEdgeInsetsMake(self.view.frame.size.width * 3/4 - originY, 0, 0, 0)];
+        }
+        
         // scroll banner
-    [_banner setFrame:CGRectMake(0, 0 - scrollView.contentOffset.y, self.view.frame.size.width, self.view.frame.size.width * 3/4)];
-    
-    if (scrollView.contentOffset.y  <= 0) {
-        [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, 0)];
+        [_banner setFrame:CGRectMake(0, -self.view.frame.size.width * 1/8 - originY * 0.6, self.view.frame.size.width, self.view.frame.size.width)];
     }
-
 }
 
 - (void)didReceiveMemoryWarning {

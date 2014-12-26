@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>83B14015-98D8-465A-8DC1-761FA6579EAB</string>
+	<key>IDESourceControlProjectName</key>
+	<string>studentdaily</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>52074ED75C922CC05E05AA79F8234198137C9E2D</key>
+		<string>https://github.com/fuermosi777/studentdaily.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>studentdaily.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>52074ED75C922CC05E05AA79F8234198137C9E2D</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/fuermosi777/studentdaily.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>52074ED75C922CC05E05AA79F8234198137C9E2D</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>52074ED75C922CC05E05AA79F8234198137C9E2D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>studentdaily</string>
+		</dict>
+	</array>
+</dict>
+</plist>
