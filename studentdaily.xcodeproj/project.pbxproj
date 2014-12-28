@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		006B53F0BDA1AF4340A4FA77 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D523FC9DF8285830C482A00F /* libPods.a */; };
+		3F0B39011A50B1DF007AA495 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0B39001A50B1DF007AA495 /* WebViewController.m */; };
 		3F83A76C1A4D12A1007AD9CB /* UMSocialLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3F83A7521A4D12A1007AD9CB /* UMSocialLocalizable.strings */; };
 		3F83A76D1A4D12A1007AD9CB /* libUMSocial_Sdk_4.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F83A7601A4D12A1007AD9CB /* libUMSocial_Sdk_4.2.1.a */; };
 		3F83A76E1A4D12A1007AD9CB /* UMSCommentDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F83A7621A4D12A1007AD9CB /* UMSCommentDetailController.xib */; };
@@ -44,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F0B38FF1A50B1DF007AA495 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		3F0B39001A50B1DF007AA495 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		3F83A7531A4D12A1007AD9CB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/UMSocialLocalizable.strings; sourceTree = "<group>"; };
 		3F83A7551A4D12A1007AD9CB /* UMSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocial.h; sourceTree = "<group>"; };
 		3F83A7561A4D12A1007AD9CB /* UMSocialAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialAccountManager.h; sourceTree = "<group>"; };
@@ -225,6 +228,8 @@
 				3FB7C1071A4B0B4700EED43B /* PostViewController.m */,
 				3FB7C10C1A4B799200EED43B /* AboutTableViewController.h */,
 				3FB7C10D1A4B799200EED43B /* AboutTableViewController.m */,
+				3F0B38FF1A50B1DF007AA495 /* WebViewController.h */,
+				3F0B39001A50B1DF007AA495 /* WebViewController.m */,
 				3FB7C0E71A4AF0D400EED43B /* Main.storyboard */,
 				3FB7C0EA1A4AF0D400EED43B /* Images.xcassets */,
 				3FB7C0EC1A4AF0D400EED43B /* LaunchScreen.xib */,
@@ -417,6 +422,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FB7C1081A4B0B4700EED43B /* PostViewController.m in Sources */,
+				3F0B39011A50B1DF007AA495 /* WebViewController.m in Sources */,
 				3FB7C10E1A4B799200EED43B /* AboutTableViewController.m in Sources */,
 				3FB7C0E31A4AF0D400EED43B /* AppDelegate.m in Sources */,
 				3FB7C0E01A4AF0D400EED43B /* main.m in Sources */,

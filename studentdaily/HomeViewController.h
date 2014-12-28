@@ -10,9 +10,15 @@
 
 @interface HomeViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
+@property (strong, nonatomic) UIScrollView *contentView;
+@property (strong, nonatomic) UIScrollView *sidebarView;
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) UIScrollView *scrollView;
+@property (strong, nonatomic) NSString *keyword;
 
 @property (strong, nonatomic) NSArray *array;
+
+@property (strong, nonatomic) NSArray *categories;
+@property (strong, nonatomic) NSMutableArray *buttons;
 
 @end

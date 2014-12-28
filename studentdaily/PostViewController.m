@@ -11,6 +11,8 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "NavViewController.h"
 #import "UMSocial.h"
+#import <HTMLReader/HTMLReader.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface PostViewController () <UMSocialUIDelegate>
 
@@ -27,6 +29,8 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1];
     [self addRightButton];
+    [self addWebView];
+    [self addBanner];
     [self loadData];
     // Do any additional setup after loading the view.
 }
@@ -62,10 +66,10 @@
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = _banner.bounds;
     gradient.colors = [NSArray arrayWithObjects:
-                       (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0] CGColor],
+                       (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.6] CGColor],
                        (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0] CGColor],
                        (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.2] CGColor],
-                       (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.6] CGColor],
+                       (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8] CGColor],
                        nil];
     [_banner.layer insertSublayer:gradient atIndex:0];
     
@@ -76,6 +80,11 @@
     [title setNumberOfLines:0];
     [title sizeToFit];
     [title setTextColor:[UIColor whiteColor]];
+    [title.layer setShadowColor:[UIColor blackColor].CGColor];
+    [title.layer setShadowOffset:CGSizeMake(2.0, 2.0)];
+    [title.layer setMasksToBounds:NO];
+    [title.layer setShadowRadius:3.0];
+    [title.layer setShadowOpacity:0.5];
     [_banner addSubview:title];
 }
 
@@ -115,40 +124,65 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // send url request
-        NSString *urlString = [[NSString stringWithFormat:@"http://studentdaily.org/api/post/%@/",_postID] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSURL *url = [NSURL URLWithString:urlString];
-        NSError *error;
-        NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&error];
-        if (data != nil) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [hud hide:YES];
-                
-                NSError *error = nil;
-                
-                // 先输出array，然后第0位的才是dict
-                _dict = [NSJSONSerialization JSONObjectWithData:data
-                                                        options:kNilOptions
-                                                          error:&error];
-                
-                // load complete
-                [self loadComplete];
-            });
-        } else {
-            NSLog(@"load fail");
-            [hud hide:YES];
-        }
+        [_banner sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", [_dict objectForKey:@"photo"]]]];
         
-    });
-}
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",[_dict objectForKey:@"url"]]];
+        NSString *webString= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+        HTMLDocument *document = [HTMLDocument documentWithString:webString];
+        HTMLSelector *selector = [HTMLSelector selectorForString:@".rich_media_content"];
+        HTMLDocument *content = [[document nodesMatchingParsedSelector:selector] objectAtIndex:0];
+        
+        NSString *contentString = content.innerHTML;
+        
+        NSRegularExpression *regexStyle = [NSRegularExpression regularExpressionWithPattern:@" style=\"[^>]*\"" options:0 error:NULL];
+        contentString = [regexStyle stringByReplacingMatchesInString:contentString
+                                                             options:0
+                                                               range:NSMakeRange(0, [contentString length])
+                                                        withTemplate:@""];
+        NSRegularExpression *regexClass = [NSRegularExpression regularExpressionWithPattern:@" class=\"[^>]*\"" options:0 error:NULL];
+        contentString = [regexClass stringByReplacingMatchesInString:contentString
+                                                             options:0
+                                                               range:NSMakeRange(0, [contentString length])
+                                                        withTemplate:@""];
 
-- (void)loadComplete {
-    [self addWebView];
-    [self addBanner];
-    [_banner sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", [_dict objectForKey:@"photo"]]]];
-    
-    NSString *embedHTML = [_dict objectForKey:@"css"];
-    embedHTML = [embedHTML stringByAppendingString:[_dict objectForKey:@"content"]];
-    [_webView loadHTMLString:embedHTML baseURL:nil];
+        //span
+        NSRegularExpression *regexSpan = [NSRegularExpression regularExpressionWithPattern:@"<span>" options:0 error:NULL];
+        contentString = [regexSpan stringByReplacingMatchesInString:contentString
+                                                             options:0
+                                                               range:NSMakeRange(0, [contentString length])
+                                                        withTemplate:@""];
+        
+        NSRegularExpression *regexSpanReverse = [NSRegularExpression regularExpressionWithPattern:@"</span>" options:0 error:NULL];
+        contentString = [regexSpanReverse stringByReplacingMatchesInString:contentString
+                                                             options:0
+                                                               range:NSMakeRange(0, [contentString length])
+                                                        withTemplate:@""];
+        
+        NSRegularExpression *regexClick = [NSRegularExpression regularExpressionWithPattern:@"<p>点击标题[^<]*</p>" options:0 error:NULL];
+        contentString = [regexClick stringByReplacingMatchesInString:contentString
+                                                                   options:0
+                                                                     range:NSMakeRange(0, [contentString length])
+                                                              withTemplate:@""];
+        
+        contentString= [contentString stringByReplacingOccurrencesOfString:@"data-src" withString:@"src"];
+        contentString = [contentString stringByReplacingOccurrencesOfString:@"<p><br></p>" withString:@""];
+        contentString = [contentString stringByReplacingOccurrencesOfString:@"<section>" withString:@"<p>"];
+        contentString = [contentString stringByReplacingOccurrencesOfString:@"</section>" withString:@"</p>"];
+        contentString = [contentString stringByReplacingOccurrencesOfString:@"<blockquote>" withString:@"<p>"];
+        contentString = [contentString stringByReplacingOccurrencesOfString:@"</blockquote>" withString:@"</p>"];
+        contentString = [contentString stringByReplacingOccurrencesOfString:@"<fieldset>" withString:@""];
+        contentString = [contentString stringByReplacingOccurrencesOfString:@"</fieldset>" withString:@""];
+        contentString = [contentString stringByReplacingOccurrencesOfString:@"<strong>" withString:@""];
+        contentString = [contentString stringByReplacingOccurrencesOfString:@"</strong>" withString:@""];
+        contentString = [contentString stringByReplacingOccurrencesOfString:@"<p></p>" withString:@""];
+
+        contentString = [[NSString stringWithFormat:@"%@",[_dict objectForKey:@"css"]] stringByAppendingString:contentString];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [hud hide:YES];
+            [_webView loadHTMLString:contentString baseURL:nil];
+            // load complete
+        });
+    });
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {

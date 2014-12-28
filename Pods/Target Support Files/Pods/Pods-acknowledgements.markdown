@@ -228,6 +228,11 @@ THE SOFTWARE.
    See the License for the specific language governing permissions and
    limitations under the License.
 
+## HTMLReader
+
+HTMLReader is in the public domain.
+
+
 ## MBProgressHUD
 
 Copyright (c) 2013 Matej Bukovinski

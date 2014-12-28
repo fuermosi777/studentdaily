@@ -1,6 +1,7 @@
 
 #define CONTACTSECTION 0
 #define VERSIONSECTION 1
+#define OTHERSECTION 2
 
 #import "AboutTableViewController.h"
 #import <MessageUI/MFMailComposeViewController.h>
@@ -56,12 +57,27 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
-    return 1;
+    NSInteger num;
+    switch (section)
+    {
+        case CONTACTSECTION:
+            num = 1;
+            break;
+        case VERSIONSECTION:
+            num = 1;
+            break;
+        case OTHERSECTION:
+            num = 1;
+            break;
+        default:
+            num = 1;
+            break;
+    }
+    return num;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -73,6 +89,9 @@
             break;
         case VERSIONSECTION:
             sectionName = @"版本信息";
+            break;
+        case OTHERSECTION:
+            sectionName = @"其他";
             break;
         default:
             sectionName = @"";
@@ -118,6 +137,24 @@
                     
                     [cell addSubview:button];
                     
+                    break;
+                }
+                default:
+                    break;
+            }
+            break;
+        }
+        case OTHERSECTION:
+        {
+            switch (indexPath.row) {
+                case 0:
+                {
+                    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+                    button.titleLabel.font = [UIFont systemFontOfSize:16];
+                    [button setTitle:@"版权信息" forState:UIControlStateNormal];
+                    [button setTitleColor: [UIColor grayColor] forState:UIControlStateNormal];
+                    
+                    [cell addSubview:button];
                     break;
                 }
                 default:

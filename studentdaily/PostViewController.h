@@ -10,7 +10,6 @@
 
 @interface PostViewController : UIViewController <UIScrollViewDelegate>
 
-@property (strong, nonatomic) NSString *postID;
 @property (strong, nonatomic) UIWebView *webView;
 @property (strong, nonatomic) NSDictionary *dict;
 @property (strong, nonatomic) UIImageView *banner;

@@ -8,6 +8,7 @@
 #define LISTITEMHEIGHT 100
 #define LIST 0
 #define BANNERNUM 5
+#define BUTTONHEIGHT 50
 
 #import "HomeViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h> // progress indicator
@@ -15,6 +16,7 @@
 #import "PostViewController.h"
 #import "NavViewController.h"
 #import "AboutTableViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface HomeViewController ()
 
@@ -24,22 +26,48 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _keyword = @"精选";
+    
+    [self addContent];
     [self addTable];
+    [self addSidebar];
     [self addBanner];
     [self loadData];
-    [self addRightButton];
+    [self addLeftButton];
     
     self.navigationItem.title = @"留学生日报";
 }
 
+- (void)addContent {
+    _contentView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    [_contentView setBackgroundColor:[UIColor darkGrayColor]];
+    [_contentView setContentSize:CGSizeMake(self.view.frame.size.width * 7/4, self.view.frame.size.height - 64)];
+    [_contentView setShowsHorizontalScrollIndicator:YES];
+    [_contentView setPagingEnabled:YES];
+    [_contentView setContentOffset:CGPointMake(self.view.frame.size.width * 3/4, 0)];
+    [_contentView setDelegate:self];
+    [_contentView setShowsVerticalScrollIndicator:NO];
+    [_contentView setBounces:NO];
+    [_contentView setShowsHorizontalScrollIndicator:NO];
+    [_contentView setAlwaysBounceHorizontal:NO];
+    [self.view addSubview:_contentView];
+}
+
 - (void)addTable {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -64, self.view.frame.size.width, self.view.frame.size.height + 64)];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 3/4, -64, self.view.frame.size.width, self.view.frame.size.height)];
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.showsVerticalScrollIndicator = YES;
     _tableView.contentInset = UIEdgeInsetsMake(self.view.frame.size.width * 3/4, 0, 0, 0);
     _tableView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:_tableView];
+    _tableView.clipsToBounds = NO;
+    _tableView.layer.masksToBounds = NO;
+    _tableView.layer.shadowColor = [UIColor blackColor].CGColor;
+    _tableView.layer.shadowOffset = CGSizeMake(0, 0);
+    _tableView.layer.shadowOpacity = 0.4;
+    _tableView.layer.shadowRadius = 3.0f;
+    [_contentView addSubview:_tableView];
 }
 
 - (void)addBanner {
@@ -47,14 +75,50 @@
     [_tableView insertSubview:_scrollView atIndex:0];
 }
 
-- (void)addRightButton {
-    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks
+- (void)addSidebar {
+    // other btns
+    UIButton *aboutBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width * 3/4, BUTTONHEIGHT)];
+    [aboutBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    [aboutBtn setTitle:@"关于" forState:UIControlStateNormal];
+    [aboutBtn setBackgroundColor:[UIColor darkGrayColor]];
+    [aboutBtn addTarget:self action:@selector(redirectToAboutView) forControlEvents:UIControlEventTouchUpInside];
+    [_contentView addSubview:aboutBtn];
+    
+    // sidebar
+    _sidebarView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, BUTTONHEIGHT, self.view.frame.size.width * 3/4, self.view.frame.size.height)];
+    [_contentView addSubview:_sidebarView];
+    // data init
+    _categories = [NSArray arrayWithObjects:@"精选",@"科技",@"媒体",@"娱乐",@"生活",@"学习",@"历史",@"金融",@"美食",@"电影",@"海外", nil];
+    // start init labels
+    [_sidebarView setContentSize:CGSizeMake(_sidebarView.frame.size.width, BUTTONHEIGHT * ([_categories count] + 2))];
+    
+    _buttons = [[NSMutableArray alloc] init];
+    for (int i = 0; i < [_categories count]; i++) {
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, BUTTONHEIGHT * i, _sidebarView.frame.size.width, BUTTONHEIGHT)];
+        [button setTitle:[_categories objectAtIndex:i] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+        [button addTarget:self action:@selector(buttonSelected:) forControlEvents:UIControlEventTouchUpInside];
+        
+        if (i == 0) {
+            [button setBackgroundColor:[UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1]];
+        }
+        
+        [_sidebarView addSubview:button];
+        [_buttons addObject:button];
+    }
+}
+
+- (void)addLeftButton {
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks
                                                                                  target:self
-                                                                                 action:@selector(redirectToAboutView)];
-    self.navigationItem.rightBarButtonItem = rightButton;
+                                                                                 action:@selector(showSidebar)];
+    self.navigationItem.leftBarButtonItem = leftButton;
 }
 
 - (void)reloadBanner {
+    NSArray *viewsToRemove = [_scrollView subviews];
+    for (UIView *v in viewsToRemove) [v removeFromSuperview];
     // add top banner
     [_scrollView setContentSize:CGSizeMake(self.view.frame.size.width * BANNERNUM, self.view.frame.size.width)];
     [_scrollView setPagingEnabled:YES];
@@ -72,10 +136,10 @@
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.frame = photo.bounds;
         gradient.colors = [NSArray arrayWithObjects:
-                           (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0] CGColor],
+                           (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.6] CGColor],
                            (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0] CGColor],
                            (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.2] CGColor],
-                           (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.6] CGColor],
+                           (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8] CGColor],
                            nil];
         [photo.layer insertSublayer:gradient atIndex:0];
         
@@ -86,6 +150,11 @@
         [title setNumberOfLines:0];
         [title sizeToFit];
         [title setTextColor:[UIColor whiteColor]];
+        [title.layer setShadowColor:[UIColor blackColor].CGColor];
+        [title.layer setShadowOffset:CGSizeMake(2.0, 2.0)];
+        [title.layer setMasksToBounds:NO];
+        [title.layer setShadowRadius:3.0];
+        [title.layer setShadowOpacity:0.5];
         [photo addSubview:title];
         
         // author
@@ -98,7 +167,7 @@
         [photo addSubview:author];
         
         // tag
-        photo.tag = [[dict objectForKey:@"id"] intValue];
+        photo.tag = i;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
         [photo setUserInteractionEnabled:YES];
         [photo addGestureRecognizer:tap];
@@ -110,7 +179,7 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // send url request
-        NSString *urlString = [[NSString stringWithFormat:@"http:/studentdaily.org/api/post/list/"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *urlString = [[NSString stringWithFormat:@"http:/studentdaily.org/api/post/list/?keyword=%@",_keyword] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:urlString];
         NSError *error;
         NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&error];
@@ -222,7 +291,7 @@
             [right addSubview:photo];
             
             [cell addSubview:item];
-            [cell setTag:[[dict objectForKey:@"id"] intValue]];
+            [cell setTag:indexPath.row];
             break;
         }
         default:
@@ -233,8 +302,23 @@
 }
 
 - (void)tap:(UITapGestureRecognizer *)tap {
-    NSString *ID = [NSString stringWithFormat:@"%ld",(long)tap.view.tag];
-    [self redirectToPost:ID];
+    NSInteger index = tap.view.tag;
+    [self redirectToPost:index];
+}
+
+- (void)buttonSelected:(UIButton *)button {
+    _keyword = button.titleLabel.text;
+    
+    [button setBackgroundColor:[UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1]];
+
+    for (UIButton *b in _buttons) {
+        if (![b.titleLabel.text isEqualToString:_keyword]) {
+            [b setBackgroundColor:[UIColor clearColor]];
+        }
+    }
+    
+    [self hideSidebar];
+    [self loadData];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -242,7 +326,11 @@
         case LIST:
         {
             UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-            [self redirectToPost:[NSString stringWithFormat:@"%ld",(long)cell.tag]];
+            if (_contentView.contentOffset.x == self.view.frame.size.width * 3/4) {
+                [self redirectToPost:cell.tag];
+            } else {
+                [self hideSidebar];
+            }
             break;
         }
         default:
@@ -251,30 +339,38 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    float originY = scrollView.contentOffset.y + self.view.frame.size.width * 3/4 + 64;
-    //NSLog(@"%f,%f,%f",scrollView.contentOffset.y,originY,- self.view.frame.size.width * 7/8 + originY * 0.6);
-    float percentage = originY / 100;
-    [(NavViewController *)self.navigationController setBgColor:percentage];
-    
-    if (originY < 0) {
-        [_scrollView setFrame:CGRectMake(0, - self.view.frame.size.width * 7/8 + originY * 0.8, self.view.frame.size.width, self.view.frame.size.width)];
-    } else {
-        [_scrollView setFrame:CGRectMake(0, - self.view.frame.size.width * 7/8 + originY * 0.6, self.view.frame.size.width, self.view.frame.size.width)];
+    if (scrollView == _contentView) {
+        if (scrollView.contentOffset.x == 0) {
+            [_tableView setScrollEnabled:NO];
+        } else {
+            [_tableView setScrollEnabled:YES];
+        }
+    }
+    if (scrollView == _tableView) {
+        
+        float originY = scrollView.contentOffset.y + self.view.frame.size.width * 3/4;
+        float percentage = originY / 100;
+        [(NavViewController *)self.navigationController setBgColor:percentage];
+        if (originY < 0) {
+            [_scrollView setFrame:CGRectMake(0, - self.view.frame.size.width * 7/8 + originY * 0.8, self.view.frame.size.width, self.view.frame.size.width)];
+        } else {
+            [_scrollView setFrame:CGRectMake(0, - self.view.frame.size.width * 7/8 + originY * 0.6, self.view.frame.size.width, self.view.frame.size.width)];
+        }
     }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     float originY = scrollView.contentOffset.y + self.view.frame.size.width * 3/4 + 64;
-    if (originY < -70) {
+    if (originY < -20) {
         [self loadData];
     }
 }
 
 #pragma mark - redirect
 
-- (void)redirectToPost:(NSString *)postID {
+- (void)redirectToPost:(NSInteger)index {
     PostViewController *vc = [[PostViewController alloc] init];
-    [vc setPostID:postID];
+    [vc setDict:[_array objectAtIndex:index]];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -287,6 +383,12 @@
                          [self.navigationController pushViewController:vc animated:NO];
                          [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:NO];
                      }];
+}
+- (void)showSidebar {
+    [_contentView setContentOffset:CGPointMake(0, _contentView.contentOffset.y) animated:YES];
+}
+- (void)hideSidebar {
+    [_contentView setContentOffset:CGPointMake(self.view.frame.size.width * 3/4, _contentView.contentOffset.y) animated:YES];
 }
 
 #pragma mark - other
