@@ -86,6 +86,15 @@
     [title.layer setShadowRadius:3.0];
     [title.layer setShadowOpacity:0.5];
     [_banner addSubview:title];
+    
+    // author
+    UILabel *author = [[UILabel alloc] initWithFrame:CGRectMake(15, self.view.frame.size.width * 7/8 - 20, self.view.frame.size.width - 30, 20)];
+    [author setText:[NSString stringWithFormat:@"来自: %@", [_dict objectForKey:@"author"]]];
+    [author setFont:[UIFont systemFontOfSize:10]];
+    [author setTextColor:[UIColor lightGrayColor]];
+    [author setNumberOfLines:0];
+    [author sizeToFit];
+    [_banner addSubview:author];
 }
 
 #pragma mark - share
@@ -93,7 +102,7 @@
 - (void)share {
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:@"549cda13fd98c5b8d0000ff8"
-                                      shareText:@"分享自留学生日报"
+                                      shareText:@"分享自学生日报"
                                      shareImage:_banner.image
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatFavorite,UMShareToWechatSession,UMShareToWechatTimeline,nil]
                                        delegate:self];

@@ -13,4 +13,6 @@
 @property (strong, nonatomic) NSURL *URL;
 @property (strong, nonatomic) UIWebView *webView;
 
+- (id)initWithURL:(NSURL *)URL;
+
 @end

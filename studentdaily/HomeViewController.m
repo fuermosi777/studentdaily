@@ -17,6 +17,7 @@
 #import "NavViewController.h"
 #import "AboutTableViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "WebViewController.h"
 
 @interface HomeViewController ()
 
@@ -36,7 +37,7 @@
     [self loadData];
     [self addLeftButton];
     
-    self.navigationItem.title = @"留学生日报";
+    self.navigationItem.title = @"学生日报";
 }
 
 - (void)addContent {

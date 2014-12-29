@@ -6,6 +6,7 @@
 #import "AboutTableViewController.h"
 #import <MessageUI/MFMailComposeViewController.h>
 #import "NavViewController.h"
+#import "WebViewController.h"
 
 @interface AboutTableViewController () <MFMailComposeViewControllerDelegate>
 
@@ -153,6 +154,7 @@
                     button.titleLabel.font = [UIFont systemFontOfSize:16];
                     [button setTitle:@"版权信息" forState:UIControlStateNormal];
                     [button setTitleColor: [UIColor grayColor] forState:UIControlStateNormal];
+                    [button addTarget:self action:@selector(redirectToCopyrightView) forControlEvents:UIControlEventTouchUpInside];
                     
                     [cell addSubview:button];
                     break;
@@ -191,6 +193,12 @@
         NSLog(@"It's away!");
     }
     [self dismissViewControllerAnimated:YES completion:^{}];
+}
+
+#pragma mark - redirect
+- (void)redirectToCopyrightView {
+    WebViewController *vc = [[WebViewController alloc] initWithURL:[NSURL URLWithString:@"http://studentdaily.org/web/copyright/"]];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 /*
