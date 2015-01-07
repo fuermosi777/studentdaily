@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomNavigationBar.h"
 
-@interface PostViewController : UIViewController <UIScrollViewDelegate>
+@interface PostViewController : UIViewController <UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) UIWebView *webView;
 @property (strong, nonatomic) NSDictionary *dict;
 @property (strong, nonatomic) UIImageView *banner;
+@property (strong, nonatomic) CustomNavigationBar *navbar;
 
 @end

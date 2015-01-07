@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomNavigationBar.h"
 
 @interface HomeViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
@@ -15,6 +16,7 @@
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) NSString *keyword;
+@property (strong, nonatomic) CustomNavigationBar *navbar;
 
 @property (strong, nonatomic) NSArray *array;
 

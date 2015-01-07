@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomNavigationBar.h"
 
-@interface WebViewController : UIViewController
+@interface WebViewController : UIViewController <UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) NSURL *URL;
 @property (strong, nonatomic) UIWebView *webView;
+
+@property (strong, nonatomic) CustomNavigationBar *navbar;
 
 - (id)initWithURL:(NSURL *)URL;
 

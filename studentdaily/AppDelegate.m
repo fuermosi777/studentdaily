@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
+#import <MobClick.h>
 
 @interface AppDelegate ()
 
@@ -25,6 +26,9 @@
     [UMSocialData setAppKey:@"549cda13fd98c5b8d0000ff8"];
     //设置微信AppId、appSecret，分享url
     [UMSocialWechatHandler setWXAppId:@"wx9b7a00c2a98e1c7e" appSecret:@"13e6e8241df41d4255b947bfacae06da" url:@"http://www.studentdaily.org/"];
+    
+    //
+    [MobClick startWithAppkey:@"549cda13fd98c5b8d0000ff8" reportPolicy:BATCH channelId:@"Web"];
     
     return YES;
 }

@@ -8,12 +8,19 @@
 
 #import "WebViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h> // progress indicator
+#import <ionicons/IonIcons.h>
 
 @interface WebViewController ()
 
 @end
 
 @implementation WebViewController
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    
+}
 
 - (id)initWithURL:(NSURL *)URL {
     self = [super init];
@@ -27,11 +34,27 @@
     [super viewDidLoad];
     [self addWebView];
     [self loadData];
+    [self addNavbar];
     // Do any additional setup after loading the view.
 }
 
+- (void)addNavbar {
+    _navbar = [[CustomNavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
+    [_navbar setBgAlpha:1];
+    [self.view addSubview:_navbar];
+    
+    [_navbar setTitle:@"关于"];
+    
+    // add left button
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(15, 27, 30, 30)];
+    UILabel *left = [IonIcons labelWithIcon:icon_ios7_arrow_back size:30.0f color:[UIColor whiteColor]];
+    [button addSubview:left];
+    [button addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    [_navbar addSubview:button];
+}
+
 - (void)addWebView {
-    _webView = [[UIWebView alloc] initWithFrame:self.view.frame];
+    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height - 44)];
     [self.view addSubview:_webView];
 }
 
@@ -50,6 +73,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)goBack {
+    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 /*

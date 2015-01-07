@@ -13,6 +13,8 @@
 #import "UMSocial.h"
 #import <HTMLReader/HTMLReader.h>
 #import <QuartzCore/QuartzCore.h>
+#import "CustomNavigationBar.h"
+#import <ionicons/IonIcons.h>
 
 @interface PostViewController () <UMSocialUIDelegate>
 
@@ -22,7 +24,8 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:YES];
-    [(NavViewController *)self.navigationController setBgColor:0];
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+
 }
 
 - (void)viewDidLoad {
@@ -32,7 +35,21 @@
     [self addWebView];
     [self addBanner];
     [self loadData];
-    // Do any additional setup after loading the view.
+    [self addNavbar];
+}
+
+- (void)addNavbar {
+    _navbar = [[CustomNavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
+    [self.view addSubview:_navbar];
+    
+    [_navbar setTitle:@""];
+    
+    // add left button
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(15, 27, 30, 30)];
+    UILabel *left = [IonIcons labelWithIcon:icon_ios7_arrow_back size:30.0f color:[UIColor whiteColor]];
+    [button addSubview:left];
+    [button addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    [_navbar addSubview:button];
 }
 
 - (void)addRightButton {
@@ -142,30 +159,17 @@
         HTMLDocument *content = [[document nodesMatchingParsedSelector:selector] objectAtIndex:0];
         
         NSString *contentString = content.innerHTML;
-        
-        NSRegularExpression *regexStyle = [NSRegularExpression regularExpressionWithPattern:@" style=\"[^>]*\"" options:0 error:NULL];
-        contentString = [regexStyle stringByReplacingMatchesInString:contentString
-                                                             options:0
-                                                               range:NSMakeRange(0, [contentString length])
-                                                        withTemplate:@""];
-        NSRegularExpression *regexClass = [NSRegularExpression regularExpressionWithPattern:@" class=\"[^>]*\"" options:0 error:NULL];
-        contentString = [regexClass stringByReplacingMatchesInString:contentString
-                                                             options:0
-                                                               range:NSMakeRange(0, [contentString length])
-                                                        withTemplate:@""];
-
-        //span
-        NSRegularExpression *regexSpan = [NSRegularExpression regularExpressionWithPattern:@"<span>" options:0 error:NULL];
-        contentString = [regexSpan stringByReplacingMatchesInString:contentString
-                                                             options:0
-                                                               range:NSMakeRange(0, [contentString length])
-                                                        withTemplate:@""];
-        
-        NSRegularExpression *regexSpanReverse = [NSRegularExpression regularExpressionWithPattern:@"</span>" options:0 error:NULL];
-        contentString = [regexSpanReverse stringByReplacingMatchesInString:contentString
-                                                             options:0
-                                                               range:NSMakeRange(0, [contentString length])
-                                                        withTemplate:@""];
+        /*
+        NSArray *attributeList = [NSArray arrayWithObjects:@"style",@"class",@"width",@"height",@"align",@"bgcolor", nil];
+        // remove attrs
+        for (NSString *attribute in attributeList) {
+            NSString *pattern = [NSString stringWithFormat:@" %@=\"[^>\"]*\"",attribute];
+            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:NULL];
+            contentString = [regex stringByReplacingMatchesInString:contentString
+                                                            options:0
+                                                              range:NSMakeRange(0, [contentString length])
+                                                       withTemplate:@""];
+        }
         
         NSRegularExpression *regexClick = [NSRegularExpression regularExpressionWithPattern:@"<p>点击标题[^<]*</p>" options:0 error:NULL];
         contentString = [regexClick stringByReplacingMatchesInString:contentString
@@ -174,9 +178,10 @@
                                                               withTemplate:@""];
         
         contentString= [contentString stringByReplacingOccurrencesOfString:@"data-src" withString:@"src"];
-        contentString = [contentString stringByReplacingOccurrencesOfString:@"<p><br></p>" withString:@""];
         contentString = [contentString stringByReplacingOccurrencesOfString:@"<section>" withString:@"<p>"];
         contentString = [contentString stringByReplacingOccurrencesOfString:@"</section>" withString:@"</p>"];
+        contentString = [contentString stringByReplacingOccurrencesOfString:@"<span>" withString:@""];
+        contentString = [contentString stringByReplacingOccurrencesOfString:@"</span>" withString:@""];
         contentString = [contentString stringByReplacingOccurrencesOfString:@"<blockquote>" withString:@"<p>"];
         contentString = [contentString stringByReplacingOccurrencesOfString:@"</blockquote>" withString:@"</p>"];
         contentString = [contentString stringByReplacingOccurrencesOfString:@"<fieldset>" withString:@""];
@@ -184,8 +189,10 @@
         contentString = [contentString stringByReplacingOccurrencesOfString:@"<strong>" withString:@""];
         contentString = [contentString stringByReplacingOccurrencesOfString:@"</strong>" withString:@""];
         contentString = [contentString stringByReplacingOccurrencesOfString:@"<p></p>" withString:@""];
-
+        contentString = [contentString stringByReplacingOccurrencesOfString:@"<p><br></p>" withString:@""];
+         */
         contentString = [[NSString stringWithFormat:@"%@",[_dict objectForKey:@"css"]] stringByAppendingString:contentString];
+        NSLog(@"%@",contentString);
         dispatch_async(dispatch_get_main_queue(), ^{
             [hud hide:YES];
             [_webView loadHTMLString:contentString baseURL:nil];
@@ -198,7 +205,7 @@
     
     float originY = scrollView.contentOffset.y + self.view.frame.size.width * 3/4;
     float percentage = originY/100;
-    [(NavViewController *)self.navigationController setBgColor:percentage];
+    [_navbar setBgAlpha:percentage];
     
     if (originY >= -self.view.frame.size.width * 1/8) {
         // scroll indicator
@@ -211,6 +218,10 @@
         // scroll banner
         [_banner setFrame:CGRectMake(0, -self.view.frame.size.width * 1/8 - originY * 0.6, self.view.frame.size.width, self.view.frame.size.width)];
     }
+}
+
+- (void)goBack {
+    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -66,12 +66,6 @@
 #define COCOAPODS_VERSION_MINOR_MBProgressHUD 9
 #define COCOAPODS_VERSION_PATCH_MBProgressHUD 0
 
-// NYXImagesKit
-#define COCOAPODS_POD_AVAILABLE_NYXImagesKit
-#define COCOAPODS_VERSION_MAJOR_NYXImagesKit 2
-#define COCOAPODS_VERSION_MINOR_NYXImagesKit 3
-#define COCOAPODS_VERSION_PATCH_NYXImagesKit 0
-
 // SDWebImage
 #define COCOAPODS_POD_AVAILABLE_SDWebImage
 #define COCOAPODS_VERSION_MAJOR_SDWebImage 3
@@ -83,4 +77,16 @@
 #define COCOAPODS_VERSION_MAJOR_SDWebImage_Core 3
 #define COCOAPODS_VERSION_MINOR_SDWebImage_Core 7
 #define COCOAPODS_VERSION_PATCH_SDWebImage_Core 1
+
+// UMengAnalytics
+#define COCOAPODS_POD_AVAILABLE_UMengAnalytics
+#define COCOAPODS_VERSION_MAJOR_UMengAnalytics 3
+#define COCOAPODS_VERSION_MINOR_UMengAnalytics 1
+#define COCOAPODS_VERSION_PATCH_UMengAnalytics 8
+
+// ionicons
+#define COCOAPODS_POD_AVAILABLE_ionicons
+#define COCOAPODS_VERSION_MAJOR_ionicons 1
+#define COCOAPODS_VERSION_MINOR_ionicons 5
+#define COCOAPODS_VERSION_PATCH_ionicons 2
 

@@ -15,9 +15,11 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "PostViewController.h"
 #import "NavViewController.h"
-#import "AboutTableViewController.h"
+#import "WebViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "WebViewController.h"
+#import <ionicons/IonIcons.h>
+#import "CustomNavigationBar.h"
 
 @interface HomeViewController ()
 
@@ -34,15 +36,29 @@
     [self addTable];
     [self addSidebar];
     [self addBanner];
+    [self addNavbar];
     [self loadData];
-    [self addLeftButton];
     
-    self.navigationItem.title = @"学生日报";
+    [self.navigationController.navigationBar setUserInteractionEnabled:NO];
+}
+
+- (void)addNavbar {
+    _navbar = [[CustomNavigationBar alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 3/4, 0, self.view.frame.size.width, 64)];
+    [_contentView addSubview:_navbar];
+    
+    [_navbar setTitle:@"学生日报"];
+    
+    // add left button
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(15, 27, 30, 30)];
+    UILabel *left = [IonIcons labelWithIcon:icon_ios7_bookmarks_outline size:30.0f color:[UIColor whiteColor]];
+    [button addSubview:left];
+    [button addTarget:self action:@selector(showSidebar) forControlEvents:UIControlEventTouchUpInside];
+    [_navbar addSubview:button];
 }
 
 - (void)addContent {
-    _contentView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    [_contentView setBackgroundColor:[UIColor darkGrayColor]];
+    _contentView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height + 20)];
+    [_contentView setBackgroundColor:[UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1]];
     [_contentView setContentSize:CGSizeMake(self.view.frame.size.width * 7/4, self.view.frame.size.height - 64)];
     [_contentView setShowsHorizontalScrollIndicator:YES];
     [_contentView setPagingEnabled:YES];
@@ -56,7 +72,7 @@
 }
 
 - (void)addTable {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 3/4, -64, self.view.frame.size.width, self.view.frame.size.height)];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 3/4, 0, self.view.frame.size.width, self.view.frame.size.height)];
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.showsVerticalScrollIndicator = YES;
@@ -77,16 +93,8 @@
 }
 
 - (void)addSidebar {
-    // other btns
-    UIButton *aboutBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width * 3/4, BUTTONHEIGHT)];
-    [aboutBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    [aboutBtn setTitle:@"关于" forState:UIControlStateNormal];
-    [aboutBtn setBackgroundColor:[UIColor darkGrayColor]];
-    [aboutBtn addTarget:self action:@selector(redirectToAboutView) forControlEvents:UIControlEventTouchUpInside];
-    [_contentView addSubview:aboutBtn];
-    
     // sidebar
-    _sidebarView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, BUTTONHEIGHT, self.view.frame.size.width * 3/4, self.view.frame.size.height)];
+    _sidebarView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width * 3/4, self.view.frame.size.height)];
     [_contentView addSubview:_sidebarView];
     // data init
     _categories = [NSArray arrayWithObjects:@"精选",@"科技",@"媒体",@"娱乐",@"生活",@"学习",@"历史",@"金融",@"美食",@"电影",@"海外", nil];
@@ -98,23 +106,48 @@
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, BUTTONHEIGHT * i, _sidebarView.frame.size.width, BUTTONHEIGHT)];
         [button setTitle:[_categories objectAtIndex:i] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        [button.titleLabel setFont:[UIFont systemFontOfSize:16]];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
         [button addTarget:self action:@selector(buttonSelected:) forControlEvents:UIControlEventTouchUpInside];
         
         if (i == 0) {
-            [button setBackgroundColor:[UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1]];
+            [button setBackgroundColor:[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1]];
         }
         
         [_sidebarView addSubview:button];
         [_buttons addObject:button];
     }
-}
-
-- (void)addLeftButton {
-    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks
-                                                                                 target:self
-                                                                                 action:@selector(showSidebar)];
-    self.navigationItem.leftBarButtonItem = leftButton;
+    
+    // add bottom
+    UIView *bottomBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width * 3/4, 64)];
+    [_contentView addSubview:bottomBar];
+    bottomBar.layer.masksToBounds = NO;
+    bottomBar.layer.shadowColor = [UIColor blackColor].CGColor;
+    bottomBar.layer.shadowOffset = CGSizeMake(0, 1);
+    bottomBar.layer.shadowOpacity = 0.4;
+    bottomBar.layer.shadowRadius = 3.0f;
+    [bottomBar setBackgroundColor:[UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1]];
+    
+    /*
+    UIButton *collectBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, bottomBar.frame.size.width/2, bottomBar.frame.size.height)];
+    [collectBtn setTitle:@"收藏" forState:UIControlStateNormal];
+    [collectBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    [collectBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
+    UILabel *star = [IonIcons labelWithIcon:icon_ios7_star_outline size:20.0f color:[UIColor lightGrayColor]];
+    [star setCenter:CGPointMake(30, bottomBar.frame.size.height / 2)];
+    [collectBtn addSubview:star];
+    [bottomBar addSubview:collectBtn];
+    */
+    UIButton *aboutBtn = [[UIButton alloc] initWithFrame:CGRectMake(bottomBar.frame.size.width/2, 10, bottomBar.frame.size.width/2, bottomBar.frame.size.height)];
+    [aboutBtn setCenter:CGPointMake(bottomBar.frame.size.width/2, 40)]; // center
+    [aboutBtn addTarget:self action:@selector(redirectToAboutView) forControlEvents:UIControlEventTouchUpInside];
+    [aboutBtn setTitle:@"关于" forState:UIControlStateNormal];
+    [aboutBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    [aboutBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
+    UILabel *info = [IonIcons labelWithIcon:icon_ios7_information_outline size:20.0f color:[UIColor lightGrayColor]];
+    [info setCenter:CGPointMake(30, bottomBar.frame.size.height / 2)];
+    [aboutBtn addSubview:info];
+    [bottomBar addSubview:aboutBtn];
 }
 
 - (void)reloadBanner {
@@ -310,7 +343,7 @@
 - (void)buttonSelected:(UIButton *)button {
     _keyword = button.titleLabel.text;
     
-    [button setBackgroundColor:[UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1]];
+    [button setBackgroundColor:[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1]];
 
     for (UIButton *b in _buttons) {
         if (![b.titleLabel.text isEqualToString:_keyword]) {
@@ -327,10 +360,11 @@
         case LIST:
         {
             UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-            if (_contentView.contentOffset.x == self.view.frame.size.width * 3/4) {
-                [self redirectToPost:cell.tag];
-            } else {
+            // accident click
+            if (_contentView.contentOffset.x < self.view.frame.size.width * 3/4 - 20) {
                 [self hideSidebar];
+            } else {
+                [self redirectToPost:cell.tag];
             }
             break;
         }
@@ -343,15 +377,21 @@
     if (scrollView == _contentView) {
         if (scrollView.contentOffset.x == 0) {
             [_tableView setScrollEnabled:NO];
+            [_scrollView setScrollEnabled:NO];
+            [_tableView setUserInteractionEnabled:NO];
+            
         } else {
             [_tableView setScrollEnabled:YES];
+            [_scrollView setScrollEnabled:YES];
+            [_tableView setUserInteractionEnabled:YES];
         }
     }
     if (scrollView == _tableView) {
         
         float originY = scrollView.contentOffset.y + self.view.frame.size.width * 3/4;
-        float percentage = originY / 100;
-        [(NavViewController *)self.navigationController setBgColor:percentage];
+        float percentage = originY/100;
+        [_navbar setBgAlpha:percentage];
+        
         if (originY < 0) {
             [_scrollView setFrame:CGRectMake(0, - self.view.frame.size.width * 7/8 + originY * 0.8, self.view.frame.size.width, self.view.frame.size.width)];
         } else {
@@ -376,14 +416,8 @@
 }
 
 - (void)redirectToAboutView {
-    AboutTableViewController *vc = [[AboutTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-
-    [UIView animateWithDuration:0.75
-                     animations:^{
-                         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-                         [self.navigationController pushViewController:vc animated:NO];
-                         [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:NO];
-                     }];
+    WebViewController *vc = [[WebViewController alloc] initWithURL:[NSURL URLWithString:@"http://studentdaily.org/web/copyright/"]];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)showSidebar {
     [_contentView setContentOffset:CGPointMake(0, _contentView.contentOffset.y) animated:YES];

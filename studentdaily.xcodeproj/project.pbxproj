@@ -31,7 +31,7 @@
 		3FB7C1051A4AF26B00EED43B /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7C1041A4AF26B00EED43B /* HomeViewController.m */; };
 		3FB7C1081A4B0B4700EED43B /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7C1071A4B0B4700EED43B /* PostViewController.m */; };
 		3FB7C10B1A4B1C5600EED43B /* NavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7C10A1A4B1C5600EED43B /* NavViewController.m */; };
-		3FB7C10E1A4B799200EED43B /* AboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7C10D1A4B799200EED43B /* AboutTableViewController.m */; };
+		3FDF97391A5CD192001517B4 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FDF97381A5CD192001517B4 /* CustomNavigationBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,8 +92,8 @@
 		3FB7C1071A4B0B4700EED43B /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
 		3FB7C1091A4B1C5600EED43B /* NavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavViewController.h; sourceTree = "<group>"; };
 		3FB7C10A1A4B1C5600EED43B /* NavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavViewController.m; sourceTree = "<group>"; };
-		3FB7C10C1A4B799200EED43B /* AboutTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutTableViewController.h; sourceTree = "<group>"; };
-		3FB7C10D1A4B799200EED43B /* AboutTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutTableViewController.m; sourceTree = "<group>"; };
+		3FDF97371A5CD192001517B4 /* CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationBar.h; sourceTree = "<group>"; };
+		3FDF97381A5CD192001517B4 /* CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationBar.m; sourceTree = "<group>"; };
 		53211A0FECB527BCDD2C8D63 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8B9DA6C2F350DC4C227A2F96 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D523FC9DF8285830C482A00F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -226,8 +226,6 @@
 				3FB7C1041A4AF26B00EED43B /* HomeViewController.m */,
 				3FB7C1061A4B0B4700EED43B /* PostViewController.h */,
 				3FB7C1071A4B0B4700EED43B /* PostViewController.m */,
-				3FB7C10C1A4B799200EED43B /* AboutTableViewController.h */,
-				3FB7C10D1A4B799200EED43B /* AboutTableViewController.m */,
 				3F0B38FF1A50B1DF007AA495 /* WebViewController.h */,
 				3F0B39001A50B1DF007AA495 /* WebViewController.m */,
 				3FB7C0E71A4AF0D400EED43B /* Main.storyboard */,
@@ -236,6 +234,8 @@
 				3FB7C0DD1A4AF0D400EED43B /* Supporting Files */,
 				3FB7C1091A4B1C5600EED43B /* NavViewController.h */,
 				3FB7C10A1A4B1C5600EED43B /* NavViewController.m */,
+				3FDF97371A5CD192001517B4 /* CustomNavigationBar.h */,
+				3FDF97381A5CD192001517B4 /* CustomNavigationBar.m */,
 			);
 			path = studentdaily;
 			sourceTree = "<group>";
@@ -421,9 +421,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FDF97391A5CD192001517B4 /* CustomNavigationBar.m in Sources */,
 				3FB7C1081A4B0B4700EED43B /* PostViewController.m in Sources */,
 				3F0B39011A50B1DF007AA495 /* WebViewController.m in Sources */,
-				3FB7C10E1A4B799200EED43B /* AboutTableViewController.m in Sources */,
 				3FB7C0E31A4AF0D400EED43B /* AppDelegate.m in Sources */,
 				3FB7C0E01A4AF0D400EED43B /* main.m in Sources */,
 				3FB7C1051A4AF26B00EED43B /* HomeViewController.m in Sources */,

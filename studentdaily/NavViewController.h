@@ -10,10 +10,4 @@
 
 @interface NavViewController : UINavigationController
 
-@property (strong, nonatomic) UIView *over;
-
-- (void)setBgColor:(float)percentage;
-- (void)setOpaque;
-- (void)setTransparent;
-
 @end
