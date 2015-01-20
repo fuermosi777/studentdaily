@@ -15,5 +15,6 @@
 @property (strong, nonatomic) NSDictionary *dict;
 @property (strong, nonatomic) UIImageView *banner;
 @property (strong, nonatomic) CustomNavigationBar *navbar;
+@property (strong, nonatomic) UIView *authorBar;
 
 @end

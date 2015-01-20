@@ -97,7 +97,7 @@
     _sidebarView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width * 3/4, self.view.frame.size.height)];
     [_contentView addSubview:_sidebarView];
     // data init
-    _categories = [NSArray arrayWithObjects:@"精选",@"科技",@"媒体",@"娱乐",@"生活",@"学习",@"历史",@"金融",@"美食",@"电影",@"海外", nil];
+    _categories = [NSArray arrayWithObjects:@"精选",@"科技",@"媒体",@"娱乐",@"生活",@"学习",@"历史",@"金融",@"美食",@"电影",@"海外",@"设计",@"时尚",@"旅行", nil];
     // start init labels
     [_sidebarView setContentSize:CGSizeMake(_sidebarView.frame.size.width, BUTTONHEIGHT * ([_categories count] + 2))];
     
@@ -310,12 +310,14 @@
             [left addSubview:author];
             
             // date
+            /*
             UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(15, LISTITEMHEIGHT - 35, left.frame.size.width - 30, 20)];
             [date setText:[NSString stringWithFormat:@"%@", [dict objectForKey:@"date"]]];
             [date setTextAlignment:NSTextAlignmentRight];
             [date setTextColor:[UIColor grayColor]];
             [date setFont:[UIFont systemFontOfSize:12]];
             [left addSubview:date];
+            */
             
             // photo
             UIImageView *photo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 15, right.frame.size.width - 15, LISTITEMHEIGHT - 30)];
@@ -331,7 +333,7 @@
         default:
             break;
     }
-    
+
     return cell;
 }
 
@@ -352,6 +354,7 @@
     }
     
     [self hideSidebar];
+    [_tableView setContentOffset:CGPointMake(0, -self.view.frame.size.width * 3/4) animated:YES];
     [self loadData];
 }
 

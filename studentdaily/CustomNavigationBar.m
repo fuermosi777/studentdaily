@@ -13,7 +13,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor colorWithRed:0 green:0.69 blue:0.81 alpha:0];
+        self.backgroundColor = [UIColor colorWithRed:0 green:0.62 blue:0.85 alpha:0];
     }
     return self;
 }
@@ -29,7 +29,7 @@
 }
 
 - (void)setBgAlpha:(float)percentage {
-    [self setBackgroundColor:[UIColor colorWithRed:0 green:0.69 blue:0.81 alpha:percentage]];
+    [self setBackgroundColor:[UIColor colorWithRed:0 green:0.62 blue:0.85 alpha:percentage]];
 }
 
 @end

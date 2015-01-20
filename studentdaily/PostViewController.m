@@ -15,6 +15,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "CustomNavigationBar.h"
 #import <ionicons/IonIcons.h>
+#import "WebViewController.h"
 
 @interface PostViewController () <UMSocialUIDelegate>
 
@@ -31,7 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1];
-    [self addRightButton];
+    
     [self addWebView];
     [self addBanner];
     [self loadData];
@@ -50,13 +51,16 @@
     [button addSubview:left];
     [button addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
     [_navbar addSubview:button];
+    
+    [self addRightButton];
 }
 
 - (void)addRightButton {
-    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
-                                                                                 target:self
-                                                                                 action:@selector(share)];
-    self.navigationItem.rightBarButtonItem = rightButton;
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 15 - 30, 27, 30, 30)];
+    UILabel *left = [IonIcons labelWithIcon:icon_ios7_upload_outline size:30.0f color:[UIColor whiteColor]];
+    [button addSubview:left];
+    [button addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+    [_navbar addSubview:button];
 }
 
 - (void)addWebView {
@@ -64,11 +68,40 @@
     _webView.backgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1];
     _webView.scrollView.delegate = self;
     _webView.scrollView.showsHorizontalScrollIndicator = NO;
-    [_webView.scrollView setContentInset:UIEdgeInsetsMake(self.view.frame.size.width * 3/4, 0, 0, 0)];
+    [_webView.scrollView setContentInset:UIEdgeInsetsMake(self.view.frame.size.width * 3/4 + 60, 0, 0, 0)];
     _webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(self.view.frame.size.width * 3/4, 0, 0, 0);
 
     [self.view addSubview:_webView];
     [_webView.scrollView setContentOffset:CGPointMake(0, -self.view.frame.size.width)];// !!! don't know why, but avoid scrollview scroll to bottom in the first place
+}
+
+- (void)addAuthorBar {
+    _authorBar = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.width * 3/4, self.view.frame.size.width, 60)];
+    [_authorBar setBackgroundColor: [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1]];
+    
+    // avatar
+    UIImageView *avatar = [[UIImageView alloc] initWithFrame:CGRectMake(20, 15, 30, 30)];
+    [avatar sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", [_dict objectForKey:@"avatar"]]]];
+    [_authorBar addSubview:avatar];
+    [avatar setClipsToBounds:YES];
+    [avatar.layer setCornerRadius:15];
+    
+    // author
+    UILabel *author = [[UILabel alloc] initWithFrame:CGRectMake(60, 20, 200, 20)];
+    [author setText:[NSString stringWithFormat:@"公众号: %@", [_dict objectForKey:@"author"]]];
+    [author setTextColor:[UIColor colorWithRed:0 green:0.62 blue:0.85 alpha:1]];
+    [author setFont:[UIFont systemFontOfSize:14]];
+    [_authorBar addSubview:author];
+    
+    // redirect
+    UIButton *redirect = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 100, 20, 100, 20)];
+    [redirect setTitle:@"查看原文" forState:UIControlStateNormal];
+    [redirect setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [redirect.titleLabel setFont:[UIFont systemFontOfSize:14]];
+    [_authorBar addSubview:redirect];
+    [redirect addTarget:self action:@selector(redirectToOrigin) forControlEvents:UIControlEventTouchUpInside];
+    
+    [_webView addSubview:_authorBar];
 }
 
 - (void)addBanner {
@@ -153,57 +186,32 @@
         [_banner sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", [_dict objectForKey:@"photo"]]]];
         
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",[_dict objectForKey:@"url"]]];
+        //NSLog(@"%@",url);
         NSString *webString= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
         HTMLDocument *document = [HTMLDocument documentWithString:webString];
         HTMLSelector *selector = [HTMLSelector selectorForString:@".rich_media_content"];
-        HTMLDocument *content = [[document nodesMatchingParsedSelector:selector] objectAtIndex:0];
-        
-        NSString *contentString = content.innerHTML;
-        /*
-        NSArray *attributeList = [NSArray arrayWithObjects:@"style",@"class",@"width",@"height",@"align",@"bgcolor", nil];
-        // remove attrs
-        for (NSString *attribute in attributeList) {
-            NSString *pattern = [NSString stringWithFormat:@" %@=\"[^>\"]*\"",attribute];
-            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:NULL];
-            contentString = [regex stringByReplacingMatchesInString:contentString
-                                                            options:0
-                                                              range:NSMakeRange(0, [contentString length])
-                                                       withTemplate:@""];
-        }
-        
-        NSRegularExpression *regexClick = [NSRegularExpression regularExpressionWithPattern:@"<p>点击标题[^<]*</p>" options:0 error:NULL];
-        contentString = [regexClick stringByReplacingMatchesInString:contentString
-                                                                   options:0
-                                                                     range:NSMakeRange(0, [contentString length])
-                                                              withTemplate:@""];
-        
-        contentString= [contentString stringByReplacingOccurrencesOfString:@"data-src" withString:@"src"];
-        contentString = [contentString stringByReplacingOccurrencesOfString:@"<section>" withString:@"<p>"];
-        contentString = [contentString stringByReplacingOccurrencesOfString:@"</section>" withString:@"</p>"];
-        contentString = [contentString stringByReplacingOccurrencesOfString:@"<span>" withString:@""];
-        contentString = [contentString stringByReplacingOccurrencesOfString:@"</span>" withString:@""];
-        contentString = [contentString stringByReplacingOccurrencesOfString:@"<blockquote>" withString:@"<p>"];
-        contentString = [contentString stringByReplacingOccurrencesOfString:@"</blockquote>" withString:@"</p>"];
-        contentString = [contentString stringByReplacingOccurrencesOfString:@"<fieldset>" withString:@""];
-        contentString = [contentString stringByReplacingOccurrencesOfString:@"</fieldset>" withString:@""];
-        contentString = [contentString stringByReplacingOccurrencesOfString:@"<strong>" withString:@""];
-        contentString = [contentString stringByReplacingOccurrencesOfString:@"</strong>" withString:@""];
-        contentString = [contentString stringByReplacingOccurrencesOfString:@"<p></p>" withString:@""];
-        contentString = [contentString stringByReplacingOccurrencesOfString:@"<p><br></p>" withString:@""];
-         */
-        contentString = [[NSString stringWithFormat:@"%@",[_dict objectForKey:@"css"]] stringByAppendingString:contentString];
-        NSLog(@"%@",contentString);
-        dispatch_async(dispatch_get_main_queue(), ^{
+        NSArray *contentArray = [NSArray arrayWithArray:[document nodesMatchingParsedSelector:selector]];
+        if ([contentArray count] > 0) {
+            HTMLDocument *content = [contentArray objectAtIndex:0];
+            NSString *contentString = content.innerHTML;
+            contentString = [[NSString stringWithFormat:@"%@",[_dict objectForKey:@"css"]] stringByAppendingString:contentString];
+            NSLog(@"%@",contentString);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [hud hide:YES];
+                [_webView loadHTMLString:contentString baseURL:nil];
+                // load complete
+                [self addAuthorBar];
+            });
+        } else {
             [hud hide:YES];
-            [_webView loadHTMLString:contentString baseURL:nil];
-            // load complete
-        });
+            [self goBack];
+        }
     });
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    float originY = scrollView.contentOffset.y + self.view.frame.size.width * 3/4;
+    float originY = scrollView.contentOffset.y + self.view.frame.size.width * 3/4 + 60;
     float percentage = originY/100;
     [_navbar setBgAlpha:percentage];
     
@@ -218,10 +226,17 @@
         // scroll banner
         [_banner setFrame:CGRectMake(0, -self.view.frame.size.width * 1/8 - originY * 0.6, self.view.frame.size.width, self.view.frame.size.width)];
     }
+    
+    [_authorBar setFrame:CGRectMake(0, self.view.frame.size.width * 3/4 - originY, self.view.frame.size.width, 60)];
 }
 
 - (void)goBack {
     [[self navigationController] popViewControllerAnimated:YES];
+}
+
+- (void)redirectToOrigin {
+    WebViewController *vc = [[WebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", [_dict objectForKey:@"url"]]]];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

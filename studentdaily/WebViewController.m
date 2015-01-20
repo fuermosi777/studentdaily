@@ -43,7 +43,7 @@
     [_navbar setBgAlpha:1];
     [self.view addSubview:_navbar];
     
-    [_navbar setTitle:@"关于"];
+    [_navbar setTitle:@""];
     
     // add left button
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(15, 27, 30, 30)];
