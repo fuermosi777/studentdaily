@@ -22,6 +22,7 @@
 		3F83A7761A4D12A1007AD9CB /* UMSocialSDKResourcesNew.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3F83A76A1A4D12A1007AD9CB /* UMSocialSDKResourcesNew.bundle */; };
 		3F83A77E1A4D12D3007AD9CB /* libSocialWechat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F83A7791A4D12D3007AD9CB /* libSocialWechat.a */; };
 		3F83A77F1A4D12D3007AD9CB /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F83A77A1A4D12D3007AD9CB /* libWeChatSDK.a */; };
+		3FA4193B1A71EEE900BF5A35 /* AuthorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FA4193A1A71EEE900BF5A35 /* AuthorViewController.m */; };
 		3FB7C0E01A4AF0D400EED43B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7C0DF1A4AF0D400EED43B /* main.m */; };
 		3FB7C0E31A4AF0D400EED43B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7C0E21A4AF0D400EED43B /* AppDelegate.m */; };
 		3FB7C0E91A4AF0D400EED43B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FB7C0E71A4AF0D400EED43B /* Main.storyboard */; };
@@ -75,6 +76,8 @@
 		3F83A77B1A4D12D3007AD9CB /* UMSocialWechatHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialWechatHandler.h; sourceTree = "<group>"; };
 		3F83A77C1A4D12D3007AD9CB /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		3F83A77D1A4D12D3007AD9CB /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		3FA419391A71EEE900BF5A35 /* AuthorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthorViewController.h; sourceTree = "<group>"; };
+		3FA4193A1A71EEE900BF5A35 /* AuthorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthorViewController.m; sourceTree = "<group>"; };
 		3FB7C0DA1A4AF0D400EED43B /* studentdaily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = studentdaily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FB7C0DE1A4AF0D400EED43B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3FB7C0DF1A4AF0D400EED43B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -226,6 +229,8 @@
 				3FB7C1041A4AF26B00EED43B /* HomeViewController.m */,
 				3FB7C1061A4B0B4700EED43B /* PostViewController.h */,
 				3FB7C1071A4B0B4700EED43B /* PostViewController.m */,
+				3FA419391A71EEE900BF5A35 /* AuthorViewController.h */,
+				3FA4193A1A71EEE900BF5A35 /* AuthorViewController.m */,
 				3F0B38FF1A50B1DF007AA495 /* WebViewController.h */,
 				3F0B39001A50B1DF007AA495 /* WebViewController.m */,
 				3FB7C0E71A4AF0D400EED43B /* Main.storyboard */,
@@ -326,6 +331,7 @@
 				TargetAttributes = {
 					3FB7C0D91A4AF0D400EED43B = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = CFR9F99TN9;
 					};
 					3FB7C0F21A4AF0D400EED43B = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -424,6 +430,7 @@
 				3FDF97391A5CD192001517B4 /* CustomNavigationBar.m in Sources */,
 				3FB7C1081A4B0B4700EED43B /* PostViewController.m in Sources */,
 				3F0B39011A50B1DF007AA495 /* WebViewController.m in Sources */,
+				3FA4193B1A71EEE900BF5A35 /* AuthorViewController.m in Sources */,
 				3FB7C0E31A4AF0D400EED43B /* AppDelegate.m in Sources */,
 				3FB7C0E01A4AF0D400EED43B /* main.m in Sources */,
 				3FB7C1051A4AF26B00EED43B /* HomeViewController.m in Sources */,
@@ -560,6 +567,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = studentdaily/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -569,6 +578,7 @@
 					"$(PROJECT_DIR)/studentdaily/Wechat",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -578,6 +588,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = studentdaily/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -587,6 +599,7 @@
 					"$(PROJECT_DIR)/studentdaily/Wechat",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

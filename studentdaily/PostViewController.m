@@ -16,6 +16,7 @@
 #import "CustomNavigationBar.h"
 #import <ionicons/IonIcons.h>
 #import "WebViewController.h"
+#import "AuthorViewController.h"
 
 @interface PostViewController () <UMSocialUIDelegate>
 
@@ -31,7 +32,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     [self addWebView];
     [self addBanner];
@@ -92,10 +93,14 @@
     [author setTextColor:[UIColor colorWithRed:0 green:0.62 blue:0.85 alpha:1]];
     [author setFont:[UIFont systemFontOfSize:14]];
     [_authorBar addSubview:author];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(redirectToAuthor:)];
+    [author setTag: [[_dict objectForKey:@"authorID"] intValue]];
+    [author setUserInteractionEnabled:YES];
+    [author addGestureRecognizer:tap];
     
     // redirect
     UIButton *redirect = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 100, 20, 100, 20)];
-    [redirect setTitle:@"查看原文" forState:UIControlStateNormal];
+    [redirect setTitle:@"查看原文 >" forState:UIControlStateNormal];
     [redirect setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [redirect.titleLabel setFont:[UIFont systemFontOfSize:14]];
     [_authorBar addSubview:redirect];
@@ -176,7 +181,7 @@
     return YES;
 }
 
-#pragma mark -
+#pragma mark - load
 
 - (void)loadData {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -236,6 +241,12 @@
 
 - (void)redirectToOrigin {
     WebViewController *vc = [[WebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", [_dict objectForKey:@"url"]]]];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)redirectToAuthor:(UITapGestureRecognizer *)tap {
+    AuthorViewController *vc = [[AuthorViewController alloc] init];
+    [vc setAuthorID: [NSString stringWithFormat:@"%li", (long)tap.view.tag]];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
