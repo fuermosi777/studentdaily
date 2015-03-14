@@ -1,5 +1,10 @@
 #StudentDaily - 学生日报app
 
+##Notice
+
+This project is discontinued.
+
+
 ##Introduction
 
 “StudentDaily” is an iOS news app. I built this to solve public account problems in Wechat users.
@@ -19,9 +24,9 @@ Wechat(微信) is a social network app that connects people. It has almost 0.6 b
 
 ##Screenshot
 
-![](http://liuhao.im/wp-content/uploads/2014/12/Untitled-12.jpg)
+![](http://liuhao.im/media/feature/studentdaily-a-news-app.jpg)
 
-![](http://liuhao.im/wp-content/uploads/2014/12/Untitled-1.jpg)
+![](http://liuhao.im/media/project/4.jpg)
 
 ##About me
 
