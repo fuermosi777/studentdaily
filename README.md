@@ -1,4 +1,4 @@
-#StudentDaily - 学生日报app
+#StudentDaily
 
 ##Notice
 
